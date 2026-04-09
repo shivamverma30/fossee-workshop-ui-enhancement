@@ -124,6 +124,23 @@ body.layout-root {
     border-radius: 0.25rem;
 }
 
+/* keep keyboard navigation visible across interactive controls */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[role="button"]:focus-visible {
+    outline: 3px solid #1d4ed8;
+    outline-offset: 2px;
+}
+
+.btn:focus-visible,
+.nav-link:focus-visible {
+    box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.2);
+}
+
 @media (min-width: 992px) {
     .site-navbar .nav-primary,
     .site-navbar .nav-workflows,

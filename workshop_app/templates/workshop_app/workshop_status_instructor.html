@@ -17,11 +17,11 @@
 
 
 {% block content %}
-    <div class="dashboard-shell">
+    <section class="dashboard-shell" aria-labelledby="instructor-dashboard-title">
     {% if not workshops %}
         <div class="dashboard-card">
             <div class="jumbotron dashboard-empty-state">
-                <h1>Welcome {{ user.first_name }}</h1>
+                <h1 id="instructor-dashboard-title">Welcome {{ user.first_name }}</h1>
                 <p>Your workshop related information will be shown here, Please navigate to <b>Workshop list</b> and
                     depending upon
                     your expertise and availability create a workshop by going to
@@ -31,13 +31,13 @@
     {% else %}
         <div class="dashboard-card">
             <div class="dashboard-header">
-                <h2 class="dashboard-page-title">Workshop Status</h2>
+                <h1 id="instructor-dashboard-title" class="dashboard-page-title">Workshop Status</h1>
                 <p class="dashboard-page-subtitle">Track accepted and incoming workshop requests.</p>
             </div>
 
             {# small UI cleanup: add card wrappers for each data table #}
             <section class="dashboard-table-card">
-                <h3 class="dashboard-section-title">Workshops Accepted</h3>
+                <h2 class="dashboard-section-title">Workshops Accepted</h2>
                 <div class="dashboard-table-wrap">
                     <table class="table dashboard-table">
                         <thead>
@@ -63,15 +63,18 @@
                                             <div class="dashboard-date-cell">
                                                 <span>{{ workshop.date | date }}</span>
                                                 {% if workshop.date > today %}
-                                                    <span class="material-icons datepicker btn dashboard-inline-action"
-                                                          data-toggle="popinfo"
-                                                          title="Note"
-                                                          data-content="Click here to change date"
-                                                          onclick="changeDate('R,{{ workshop.date| safe }}, {{ forloop.counter }}')">event</span>
+                                                    <button type="button"
+                                                            class="material-icons datepicker btn dashboard-inline-action"
+                                                            data-toggle="popinfo"
+                                                            title="Note"
+                                                            data-content="Choose this to change workshop date"
+                                                            aria-label="Change workshop date"
+                                                            onclick="changeDate('R,{{ workshop.date| safe }}, {{ forloop.counter }}')">event</button>
                                                     <div class="myDialogR{{ forloop.counter }}" style="display: none;"
                                                          title="Select New Date">
                                                         <form method="post" action="{% url 'workshop_app:change_workshop_date' workshop.id %}">
-                                                            <input type="text" placeholder="New date" name="new_date"
+                                                            <label class="sr-only" for="reschedule-date-{{ forloop.counter }}">New date</label>
+                                                            <input type="text" id="reschedule-date-{{ forloop.counter }}" placeholder="New date" name="new_date"
                                                                    class="rDate{{ forloop.counter }}"/><br>
                                                             {% csrf_token %}
                                                             <button class="btn btn-primary btn-xs dashboard-mini-btn" type="submit">Save</button>
@@ -90,7 +93,7 @@
             </section>
 
             <section class="dashboard-table-card">
-                <h3 class="dashboard-section-title">Workshops Proposed By Coordinators</h3>
+                <h2 class="dashboard-section-title">Workshops Proposed By Coordinators</h2>
                 <div class="dashboard-table-wrap">
                     <table class="table dashboard-table">
                         <thead>
@@ -117,7 +120,7 @@
                                         <td>{{ workshop.date | date }}</td>
                                         <td><span class="badge badge-warning">{{ workshop.get_status }}</span></td>
                                         <td class="dashboard-action-cell">
-                                            <a href="{% url 'workshop_app:accept_workshop' workshop.id %}" class="btn btn-primary btn-sm dashboard-action-btn" onclick="return confirm('Once accepted you cannot reject, you have to personally contact the Coordinator if the workshop is to be cancelled. Are you sure you want to accept the workshop?')">
+                                            <a href="{% url 'workshop_app:accept_workshop' workshop.id %}" class="btn btn-primary btn-sm dashboard-action-btn" aria-label="Accept this workshop request" onclick="return confirm('Once accepted you cannot reject, you have to personally contact the Coordinator if the workshop is to be cancelled. Are you sure you want to accept the workshop?')">
                                                 Accept
                                             </a>
                                         </td>
@@ -130,6 +133,6 @@
             </section>
         </div>
     {% endif %}
-    </div>
+    </section>
 
 {% endblock %}

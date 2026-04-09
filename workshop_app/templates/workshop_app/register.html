@@ -5,15 +5,15 @@
 {% endblock %}
 
 {% block content %}
-	<div class="register-shell">
-		<div class="card register-card">
+	<section class="register-shell" aria-labelledby="register-page-title">
+		<article class="card register-card">
 			<div class="card-body register-card-body">
 				<div class="register-heading-wrap">
-					<h2 class="register-title">Create your coordinator account</h2>
+					<h1 id="register-page-title" class="register-title">Create your coordinator account</h1>
 					<p class="register-subtitle">Fill in your details to request and manage workshops.</p>
 				</div>
 
-				<form class="register-form" method="post">
+				<form class="register-form" method="post" aria-labelledby="register-page-title">
 					{% csrf_token %}
 					{% for hidden in form.hidden_fields %}
 						{{ hidden }}
@@ -22,7 +22,7 @@
 					{% if form.non_field_errors %}
 						{% for error in form.non_field_errors %}
 							<div class="alert alert-dismissible alert-danger">
-								<button type="button" class="close" data-dismiss="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Dismiss error message">
 									<i class="fa fa-close"></i>
 								</button>
 								<strong>{{ error|escape }}</strong>
@@ -159,7 +159,7 @@
 					</p>
 				</div>
 			</div>
-		</div>
-	</div>
+		</article>
+	</section>
 
 {% endblock %}

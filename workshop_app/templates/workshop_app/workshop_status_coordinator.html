@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block content %}
-    <div class="dashboard-shell coordinator-dashboard-shell">
+    <section class="dashboard-shell coordinator-dashboard-shell" aria-labelledby="coordinator-dashboard-title">
         <header class="dashboard-hero-card">
-            <h1 class="dashboard-hero-title">Welcome {{ user.first_name }}</h1>
+            <h1 id="coordinator-dashboard-title" class="dashboard-hero-title">Welcome {{ user.first_name }}</h1>
             <p class="dashboard-hero-subtitle">Manage your workshop requests and approvals from one place.</p>
         </header>
 
@@ -113,7 +113,7 @@
                 <span data-workshop-status="{{ workshop.status }}"></span>
             {% endfor %}
         </div>
-    </div>
+    </section>
 
     <script>
         // quick client-side count from rendered workshop statuses
