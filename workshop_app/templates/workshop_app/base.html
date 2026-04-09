@@ -53,9 +53,10 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
+                {# improve navbar alignment #}
                 <div class="collapse navbar-collapse" id="mainNavbar">
-                    {# small layout cleanup: keep primary links grouped together #}
-                    <ul class="navbar-nav nav-primary">
+                    {# move navigation items to right side #}
+                    <ul class="navbar-nav nav-primary ml-lg-auto">
                         <li class="nav-item">
                             <a class="nav-link text-white" href="/">Home</a>
                         </li>
@@ -67,7 +68,7 @@
                     </ul>
 
                     {% if user.is_authenticated %}
-                    <ul class="navbar-nav nav-workflows mr-lg-auto">
+                    <ul class="navbar-nav nav-workflows">
                         {% if request.user|has_group:"instructor" %}
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{% url 'statistics_app:team' %}">
@@ -118,7 +119,7 @@
                         </li>
                     </ul>
                     {% else %}
-                    <ul class="navbar-nav ml-lg-auto mt-2 mt-lg-0">
+                    <ul class="navbar-nav nav-auth mt-2 mt-lg-0">
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{% url 'workshop_app:login' %}">Sign in</a>
                         </li>
