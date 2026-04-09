@@ -3,6 +3,7 @@
 {% block title %} Statistics {% endblock %}
 
 {% block content %}
+{# commit-2 note: filters should become collapsible on mobile to save vertical space #}
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
@@ -63,6 +64,7 @@
                 </div>
             </div>
             <table class="table table-responsive-sm">
+                {# commit-2 note: stats rows need a mobile-friendly card/list fallback #}
                 <thead>
                     <tr>
                         <th>Sr No.</th>

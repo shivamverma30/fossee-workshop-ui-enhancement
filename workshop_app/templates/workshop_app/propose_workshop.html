@@ -48,6 +48,7 @@
 
 
 {% block content %}
+    {# commit-2 note: this flow can use a clearer step-by-step structure on mobile #}
     <style type="text/css">
         .errorlist {
             color: red;
@@ -79,6 +80,7 @@
                             {{ form.date }}
                             <br>
                             {{ form.tnc_accepted }} I accept the
+                            {# commit-2 note: terms preview should be easier to scan before submit #}
                             <a href="#" id="disp_tnc" data-toggle="modal"
                             data-target="#exampleModalCenter">
                                 terms and conditions
