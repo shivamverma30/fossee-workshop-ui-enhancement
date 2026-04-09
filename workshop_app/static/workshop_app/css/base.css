@@ -1,19 +1,129 @@
-/**
- * Footer Styles
- */
-.navbar {
-    z-index: 1000;
+/* small layout cleanup */
+html,
+body {
+    height: 100%;
 }
+
+body.layout-root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+}
+
+.site-navbar {
+    z-index: 1000;
+    padding: 0.5rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.nav-shell {
+    row-gap: 0.5rem;
+}
+
+.site-navbar .navbar-brand {
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.site-navbar .navbar-nav .nav-link {
+    padding: 0.45rem 0.75rem;
+}
+
+.site-navbar .nav-user-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.nav-user-icon {
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.nav-user-name {
+    line-height: 1.2;
+}
+
+/* improve spacing for readability */
+.base-content {
+    flex: 1 0 auto;
+    padding: 1.25rem 0 2rem;
+}
+
+.content-shell {
+    width: 100%;
+    padding: 0 0.75rem;
+}
+
 .footer {
-    position: fixed;
-    bottom: 0;
+    margin-top: auto;
     width: 100%;
     background-color: #61615F;
-    color: white;
+    color: #fff;
     text-align: center;
-    z-index: 100;
+    padding: 0.75rem 0;
 }
-.base-content {
-    padding-top: 5em;
-    padding-bottom: 5em;
+
+.skip-link {
+    position: absolute;
+    left: -999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.skip-link:focus {
+    left: 1rem;
+    top: 1rem;
+    width: auto;
+    height: auto;
+    padding: 0.5rem 0.75rem;
+    background: #ffffff;
+    color: #000;
+    z-index: 2000;
+    border-radius: 0.25rem;
+}
+
+@media (min-width: 992px) {
+    .site-navbar .nav-primary,
+    .site-navbar .nav-workflows {
+        margin-right: 0.5rem;
+    }
+
+    .content-shell {
+        padding: 0 1.5rem;
+    }
+
+    .base-content {
+        padding-top: 1.75rem;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .site-navbar .navbar-collapse {
+        padding-top: 0.65rem;
+        margin-top: 0.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .site-navbar .navbar-nav .nav-link {
+        padding: 0.45rem 0;
+    }
+
+    .site-navbar .nav-user {
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .base-content {
+        padding-top: 1rem;
+    }
 }

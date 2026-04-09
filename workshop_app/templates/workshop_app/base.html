@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 {% load static %}
 {% load custom_filters %}
 <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
         {% block title %}
@@ -35,89 +36,116 @@
 
 </head>
 
-<body>
+<body class="layout-root">
+<a class="skip-link" href="#main-content">Skip to content</a>
 {% block header %}
-    {# commit-2 note: nav has many links; simplify grouping for small screens later #}
-    <nav class="navbar navbar-dark navbar-expand-lg bg-dark fixed-top">
-        {% if user.is_authenticated %}
-        <a class="navbar-brand text-white" href="{% url 'workshop_app:index' %}">FOSSEE Workshops</a>
-        {% else %}
-        <a class="navbar-brand text-white" href="{{request.scheme}}://{{request.get_host}}">FOSSEE Workshops</a>
-        {% endif %}
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/">
-                        Home
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'statistics_app:public' %}">
-                        Workshop Statistics
-                    </a>
-                </li>
-            </ul>
-            {% if user.is_authenticated %}
-            <ul class="navbar-nav mr-auto">
-                {% if request.user|has_group:"instructor" %}
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'statistics_app:team' %}">
-                        Team Statistics
-                    </a>
-                </li>
+    <header class="site-header">
+        <nav class="navbar navbar-dark navbar-expand-lg bg-dark site-navbar">
+            <div class="container-fluid nav-shell">
+                {% if user.is_authenticated %}
+                <a class="navbar-brand text-white" href="{% url 'workshop_app:index' %}">FOSSEE Workshops</a>
+                {% else %}
+                <a class="navbar-brand text-white" href="{{request.scheme}}://{{request.get_host}}">FOSSEE Workshops</a>
                 {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'workshop_app:workshop_status_instructor' %}">
-                        Workshop Status
-                    </a>
-                </li>
-                {% if not request.user|has_group:"instructor" %}
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="{% url 'workshop_app:propose_workshop' %}">
-                            Propose Workshop
-                        </a>
-                    </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'workshop_app:workshop_type_list' %}">
-                        Workshop Types
-                    </a>
-                </li>
-            </ul>
-            <div class="my-2 my-lg-0">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                           <span class="material-icons" style="vertical-align: middle">account_circle</span>
-                            <p style="display: inline; vertical-align: middle">
-                                {{user.get_full_name|title}}
-                            </p>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{% url 'workshop_app:view_own_profile' %}">Profile</a>
-                            <a class="dropdown-item" href="{% url 'password_change' %}">
-                                 Change Password
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar"
+                        aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    {# small layout cleanup: keep primary links grouped together #}
+                    <ul class="navbar-nav nav-primary">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{% url 'statistics_app:public' %}">
+                                Workshop Statistics
                             </a>
-                            <a class="dropdown-item" href="{% url 'workshop_app:logout' %}">Logout</a>
-                        </div>
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
+
+                    {% if user.is_authenticated %}
+                    <ul class="navbar-nav nav-workflows mr-lg-auto">
+                        {% if request.user|has_group:"instructor" %}
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{% url 'statistics_app:team' %}">
+                                Team Statistics
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        <li class="nav-item">
+                            {% if request.user|has_group:"instructor" %}
+                            <a class="nav-link text-white" href="{% url 'workshop_app:workshop_status_instructor' %}">
+                                Workshop Status
+                            </a>
+                            {% else %}
+                            <a class="nav-link text-white" href="{% url 'workshop_app:workshop_status_coordinator' %}">
+                                Workshop Status
+                            </a>
+                            {% endif %}
+                        </li>
+
+                        {% if not request.user|has_group:"instructor" %}
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{% url 'workshop_app:propose_workshop' %}">
+                                Propose Workshop
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{% url 'workshop_app:workshop_type_list' %}">
+                                Workshop Types
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav nav-user mt-2 mt-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white nav-user-link" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="material-icons nav-user-icon">account_circle</span>
+                                <span class="nav-user-name">{{ user.get_full_name|title }}</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{% url 'workshop_app:view_own_profile' %}">Profile</a>
+                                <a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a>
+                                <a class="dropdown-item" href="{% url 'workshop_app:logout' %}">Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                    {% else %}
+                    <ul class="navbar-nav ml-lg-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{% url 'workshop_app:login' %}">Sign in</a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </div>
             </div>
-            {% endif %}
-        </div>
-    </nav>
+        </nav>
+    </header>
 {% endblock %}
 
-<div class="base-content">
-    {% block content %}
-        <h1>Base Template Content. Please override me</h1>
+<main class="base-content" id="main-content" role="main">
+    <section class="content-shell">
+        {# preparing layout structure for responsive UI #}
+        {% block content %}
+            <h1>Base Template Content. Please override me</h1>
+        {% endblock %}
+    </section>
+</main>
+
+<footer class="footer">
+    {% block footer %}
+       <div class="container">
+           Developed by FOSSEE group, IIT Bombay
+       </div>
     {% endblock %}
-</div>
+</footer>
 
 <script>
     {% if messages %}
@@ -128,12 +156,4 @@
 </script>
 
 </body>
-{# commit-2 note: fixed footer can overlap content on short/mobile screens #}
-<footer class="footer">
-    {% block footer %}
-       <div class="container">
-           Developed by FOSSEE group, IIT Bombay
-       </div> 
-    {% endblock %}
-</footer>
 </html>
