@@ -3,96 +3,166 @@
 {% block title %} Statistics {% endblock %}
 
 {% block content %}
-{# commit-2 note: filters should become collapsible on mobile to save vertical space #}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-3">
-            <form method="GET">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <h3><u>Filters</u></h3>
+<section class="public-stats-page" aria-labelledby="public-stats-title">
+    <header class="public-stats-header">
+        <h1 id="public-stats-title" class="public-stats-title">Workshop Statistics</h1>
+        <p class="public-stats-subtitle">Explore public workshop data across institutes and states.</p>
+    </header>
+
+    <div class="public-stats-layout">
+        <aside class="public-stats-sidebar" aria-label="Filters sidebar">
+            <!-- left sidebar filters -->
+            <!-- responsive layout for mobile -->
+            <details class="public-stats-filters" open>
+                <summary class="public-stats-filters-summary">
+                    <span class="material-icons" aria-hidden="true">tune</span>
+                    <span>Filters</span>
+                </summary>
+
+                <form method="GET" class="public-stats-form" aria-label="Workshop statistics filters">
+                    <div class="public-stats-filter-card">
+                        <div class="public-stats-filter-header">
+                            <h2 class="public-stats-filter-title">Filters</h2>
+                            <a href="{% url 'statistics_app:public' %}" class="btn btn-outline-secondary stats-btn stats-btn-clear" aria-label="Clear all filters">
+                                <span class="material-icons" aria-hidden="true">close</span>
+                                <span>Clear</span>
+                            </a>
+                        </div>
+
+                        <div class="public-stats-filter-grid">
+                            <div class="public-stats-filter-field">
+                                <label class="public-stats-filter-label" for="{{ form.from_date.id_for_label }}">
+                                    <span class="material-icons" aria-hidden="true">event</span>
+                                    <span>From date</span>
+                                </label>
+                                {{ form.from_date }}
                             </div>
-                            <div class="col-md-4">
-                                <a href="{% url 'statistics_app:public' %}" class="btn btn-outline-info">
-                                    <i class="fa fa-times"></i>&nbsp;Clear
-                                </a>
+
+                            <div class="public-stats-filter-field">
+                                <label class="public-stats-filter-label" for="{{ form.to_date.id_for_label }}">
+                                    <span class="material-icons" aria-hidden="true">date_range</span>
+                                    <span>To date</span>
+                                </label>
+                                {{ form.to_date }}
+                            </div>
+
+                            <div class="public-stats-filter-field">
+                                <label class="public-stats-filter-label" for="{{ form.workshop_type.id_for_label }}">
+                                    <span class="material-icons" aria-hidden="true">menu_book</span>
+                                    <span>Workshop type</span>
+                                </label>
+                                {{ form.workshop_type }}
+                            </div>
+
+                            <div class="public-stats-filter-field">
+                                <label class="public-stats-filter-label" for="{{ form.state.id_for_label }}">
+                                    <span class="material-icons" aria-hidden="true">location_on</span>
+                                    <span>State</span>
+                                </label>
+                                {{ form.state }}
+                            </div>
+
+                            <div class="public-stats-filter-field">
+                                <label class="public-stats-filter-label" for="{{ form.sort.id_for_label }}">
+                                    <span class="material-icons" aria-hidden="true">swap_vert</span>
+                                    <span>{{ form.sort.help_text }}</span>
+                                </label>
+                                {{ form.sort }}
                             </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <div>From date: {{form.from_date}}</div>
-                        <div>To date: {{form.to_date}}</div>
-                        <div>Workshop: {{form.workshop_type}}</div>
-                        <div>State: {{form.state}}</div>
-                        <div>{{form.sort.help_text}}: {{form.sort}}</div>
+
                         {% if request.user.is_authenticated %}
-                        <div>{{form.show_workshops.help_text}}: {{form.show_workshops}}</div>
+                        <div class="public-stats-checkbox-field">
+                            <label for="{{ form.show_workshops.id_for_label }}">
+                                {{ form.show_workshops }}
+                                <span class="public-stats-checkbox-text">
+                                    <span class="material-icons" aria-hidden="true">visibility</span>
+                                    <span>{{ form.show_workshops.help_text }}</span>
+                                </span>
+                            </label>
+                        </div>
                         {% endif %}
-                        <br>
-                        <div class="row justify-content-center">
-                            <div class="col-md-4">
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fa fa-eye"></i>&nbsp;View
-                                </button>
-                            </div>
-                            <div class="col-md-6">
-                                <button type="submit" class="btn btn-info" name="download" value="download">
-                                    <i class="fa fa-download"></i>&nbsp;Download
-                                </button>
-                            </div>
+
+                        <div class="public-stats-actions" role="group" aria-label="Filter actions">
+                            <button type="submit" class="btn btn-success stats-btn stats-btn-primary">
+                                <span class="material-icons" aria-hidden="true">visibility</span>
+                                <span>View</span>
+                            </button>
+                            <button type="submit" class="btn btn-info stats-btn stats-btn-secondary" name="download" value="download">
+                                <span class="material-icons" aria-hidden="true">download</span>
+                                <span>Download</span>
+                            </button>
                         </div>
                     </div>
+                </form>
+            </details>
+        </aside>
+
+        <section class="public-stats-results" aria-labelledby="public-stats-results-heading">
+            <header class="public-stats-results-header">
+                <div class="public-stats-results-heading">
+                    <h2 id="public-stats-results-heading" class="public-stats-results-title">Workshop Results</h2>
+                    <p class="public-stats-results-subtitle">Showing workshops based on your selected filters.</p>
                 </div>
-            </form>
-        </div>
-        <div class="col">
-            <div class="row">
-                <div class="col-md-6">
-                    {% include "statistics_app/paginator.html" %}
-                </div>
-                <div class="col-md-3">
-                    <button class="btn btn-info" id="state_graph">
-                        <i class="fa fa-bar-chart"></i>&nbsp;State chart
+
+                <div class="public-stats-chart-actions" role="group" aria-label="Chart actions">
+                    <button class="btn btn-info stats-btn stats-btn-chart" id="state_graph" type="button" aria-label="Open state chart">
+                        <span class="material-icons" aria-hidden="true">bar_chart</span>
+                        <span>State Chart</span>
+                    </button>
+                    <button class="btn btn-info stats-btn stats-btn-chart" id="type_graph" type="button" aria-label="Open workshops chart">
+                        <span class="material-icons" aria-hidden="true">equalizer</span>
+                        <span>Workshops Chart</span>
                     </button>
                 </div>
-                <div class="col-md-3">
-                    <button class="btn btn-info" id="type_graph">
-                        <i class="fa fa-bar-chart"></i>&nbsp;Workshops chart
-                    </button>
+            </header>
+
+            <div class="public-stats-table-card">
+                <!-- improve table readability on smaller screens -->
+                <!-- keep one pagination block below table to avoid duplicate page numbers -->
+                <div class="table-responsive public-stats-table-wrap">
+                    <table class="table workshop-table public-stats-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sr No.</th>
+                                <th scope="col">Coordinator Name</th>
+                                <th scope="col">Institute Name</th>
+                                <th scope="col">Instructor Name</th>
+                                <th scope="col">Workshop Name</th>
+                                <th scope="col">Workshop Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for workshop in objects %}
+                            <tr>
+                                <td>{{ forloop.counter0|add:objects.start_index}}</td>
+                                <td>{{ workshop.coordinator.get_full_name | capfirst }}</td>
+                                <td>{{ workshop.coordinator.profile.institute | capfirst }}</td>
+                                <td>{{ workshop.instructor.get_full_name | capfirst }}</td>
+                                <td>{{ workshop.workshop_type.name }}</td>
+                                <td>{{ workshop.date | date}}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" class="public-stats-empty-cell">
+                                    <div class="public-stats-empty-state" role="status" aria-live="polite">
+                                        <span class="material-icons" aria-hidden="true">search_off</span>
+                                        <p class="public-stats-empty-text">No workshops found for the selected filters.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <table class="table table-responsive-sm">
-                {# commit-2 note: stats rows need a mobile-friendly card/list fallback #}
-                <thead>
-                    <tr>
-                        <th>Sr No.</th>
-                        <th>Coordinator Name</th>
-                        <th>Institute Name</th>
-                        <th>Instructor Name</th>
-                        <th>Workshop Name</th>
-                        <th>Workshop Date</th>
-                    </tr>
-                </thead>
-                {% csrf_token %}
-                {% for workshop in objects %}
-                    <tbody>
-                        <tr>
-                            <td>{{ forloop.counter0|add:objects.start_index}}</td>
-                            <td>{{ workshop.coordinator.get_full_name | capfirst }}</td>
-                            <td>{{ workshop.coordinator.profile.institute | capfirst }}</td>
-                            <td>{{ workshop.instructor.get_full_name | capfirst }}</td>
-                            <td>{{ workshop.workshop_type.name }}</td>
-                            <td>{{ workshop.date | date}}</td>
-                        </tr>
-                    </tbody>
-                {% endfor %}
-            </table>
-            {% include "statistics_app/paginator.html" %}
-        </div>
+
+            <nav class="public-stats-pagination" aria-label="Pagination bottom">
+                {% include "statistics_app/paginator.html" %}
+            </nav>
+        </section>
     </div>
-</div>
+</section>
 
 <!-- The Modal -->
 <div id="dialog" title="Workshops Statistics">
