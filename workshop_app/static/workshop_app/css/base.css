@@ -127,3 +127,139 @@ body.layout-root {
         padding-top: 1rem;
     }
 }
+
+/* modernize login page */
+.login-shell {
+    min-height: calc(100vh - 13rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 28rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.85rem;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+}
+
+.login-card-body {
+    padding: 1.65rem;
+}
+
+.login-heading-wrap {
+    margin-bottom: 1.25rem;
+}
+
+.login-title {
+    margin-bottom: 0.35rem;
+    font-size: 1.6rem;
+    font-weight: 650;
+    color: #1e293b;
+}
+
+.login-subtitle {
+    margin-bottom: 0;
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.login-form-group {
+    margin-bottom: 1.1rem;
+}
+
+.login-label {
+    display: inline-block;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.login-form .form-control {
+    height: 2.9rem;
+    border-radius: 0.55rem;
+    border-color: #cbd5e1;
+    background-color: #f8fafc;
+    padding: 0.65rem 0.85rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.login-form .form-control:hover {
+    border-color: #94a3b8;
+}
+
+/* improve focus state for inputs */
+.login-form .form-control:focus {
+    background-color: #fff;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 0.24rem rgba(37, 99, 235, 0.16);
+}
+
+/* adjust layout for mobile readability */
+.login-submit {
+    width: 100%;
+    min-height: 2.9rem;
+    margin-top: 0.45rem;
+    border-radius: 0.55rem;
+    font-weight: 600;
+    box-shadow: 0 7px 16px rgba(30, 64, 175, 0.18);
+}
+
+.login-submit:hover,
+.login-submit:focus {
+    box-shadow: 0 10px 20px rgba(30, 64, 175, 0.22);
+}
+
+.login-links {
+    margin-top: 1.15rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.login-link-text {
+    margin: 0;
+    color: #475569;
+    font-size: 0.95rem;
+}
+
+.login-link {
+    color: #1d4ed8;
+    font-size: 0.95rem;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-link-muted {
+    color: #475569;
+}
+
+.login-link:hover,
+.login-link:focus {
+    color: #1e40af;
+    text-decoration: underline;
+}
+
+@media (max-width: 575.98px) {
+    .login-shell {
+        min-height: calc(100vh - 11rem);
+        padding: 0.25rem 0;
+    }
+
+    .login-card {
+        max-width: 100%;
+    }
+
+    .login-card-body {
+        padding: 1.15rem 1rem;
+    }
+
+    .login-title {
+        font-size: 1.35rem;
+    }
+}
