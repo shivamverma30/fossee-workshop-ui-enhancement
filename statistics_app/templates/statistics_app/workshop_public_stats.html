@@ -1,6 +1,13 @@
 {% extends 'workshop_app/base.html' %}
+{% load static %}
 
 {% block title %} Statistics {% endblock %}
+
+{% block extra-dependencies %}
+    {{ block.super }}
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+{% endblock %}
 
 {% block content %}
 <section class="public-stats-page" aria-labelledby="public-stats-title">
@@ -105,15 +112,19 @@
                     <p class="public-stats-results-subtitle">Showing workshops based on your selected filters.</p>
                 </div>
 
-                <div class="public-stats-chart-actions" role="group" aria-label="Chart actions">
-                    <button class="btn btn-info stats-btn stats-btn-chart" id="state_graph" type="button" aria-label="Open state chart">
-                        <span class="material-icons" aria-hidden="true">bar_chart</span>
-                        <span>State Chart</span>
-                    </button>
-                    <button class="btn btn-info stats-btn stats-btn-chart" id="type_graph" type="button" aria-label="Open workshops chart">
-                        <span class="material-icons" aria-hidden="true">equalizer</span>
-                        <span>Workshops Chart</span>
-                    </button>
+                <div class="public-stats-chart-actions-shell" aria-live="polite">
+                    <!-- keep fallback controls so chart actions still work without React mount -->
+                    <div id="stats-chart-actions-fallback" class="public-stats-chart-actions" role="group" aria-label="Chart actions">
+                        <button class="btn btn-info stats-btn stats-btn-chart" id="state_graph" type="button" aria-label="Open state chart" aria-controls="dialog" onclick="window.showPublicStatsGraph && window.showPublicStatsGraph('state')">
+                            <span class="material-icons" aria-hidden="true">bar_chart</span>
+                            <span>State Chart</span>
+                        </button>
+                        <button class="btn btn-info stats-btn stats-btn-chart" id="type_graph" type="button" aria-label="Open workshops chart" aria-controls="dialog" onclick="window.showPublicStatsGraph && window.showPublicStatsGraph('type')">
+                            <span class="material-icons" aria-hidden="true">equalizer</span>
+                            <span>Workshops Chart</span>
+                        </button>
+                    </div>
+                    <div id="stats-chart-react-root"></div>
                 </div>
             </header>
 
@@ -169,43 +180,17 @@
     <canvas id="myChart"></canvas>
 </div>
 
+<script src="{% static 'statistics_app/js/public_stats_react.js' %}"></script>
 <script type="text/javascript">
-    var state_labels = {{ws_states|safe}};
-    var state_data = {{ws_count|safe}};
-    var type_labels = {{ws_type|safe}};
-    var type_data = {{ws_type_count|safe}};
-    var chart;
-    $("#state_graph").on("click", function() {
-        show_graph(state_labels, state_data, "State wise workshops");
-    });
-    $("#type_graph").on("click", function() {
-        show_graph(type_labels, type_data, "Type wise workshops");
-    });
+    window.PUBLIC_STATS_DATA = {
+        stateLabels: {{ ws_states|safe }},
+        stateData: {{ ws_count|safe }},
+        typeLabels: {{ ws_type|safe }},
+        typeData: {{ ws_type_count|safe }}
+    };
 
-    function show_graph(labels, data, graph_name, chart_name) {
-        var ctx = document.getElementById('myChart').getContext('2d');
-        if(chart) chart.destroy();
-        chart = new Chart(ctx, {
-            // The type of chart we want to create
-            type: 'bar',
-
-            // The data for our dataset
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: data,
-                    label: graph_name,
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
-                }]
-            },
-            // Configuration options go here
-            options: {}
-        });
-        $("#dialog").dialog({
-            width: 900,
-            height: 500
-        });
+    if (window.initPublicStatsReactCharts) {
+        window.initPublicStatsReactCharts();
     }
 </script>
 
