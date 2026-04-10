@@ -6,13 +6,17 @@
 
 
 	{% block content %}
-		<div class="container" align="center">
-			<br>
-			<h3>You have logged out successfully.</h3>
-			<h4>If you want to login again please
-				<a href="/">click here</a>
-			</h4>
-			<br>
-		</div>
+		<section class="status-shell" aria-labelledby="logout-status-title">
+			<article class="card status-card">
+				<div class="card-body status-card-body">
+					<div class="status-icon status-icon-info" aria-hidden="true"><span class="material-icons">logout</span></div>
+					<h1 id="logout-status-title" class="status-title">Logged out successfully</h1>
+					<p class="status-text">Your session has ended. Sign in again whenever you are ready.</p>
+					<div class="status-actions">
+						<a href="{% url 'workshop_app:login' %}" class="btn btn-primary status-btn">Sign In Again</a>
+					</div>
+				</div>
+			</article>
+		</section>
 
 	{% endblock %}

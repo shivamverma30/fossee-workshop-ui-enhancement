@@ -5,16 +5,40 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container">
-    <form action="{{URL_ROOT}}/edit_profile/" method="post" >
-    {% csrf_token %}
-      <center>
-        <table class="table table-bordered">
-          {{ form.as_table }}
-        </table>
-      </center>
-      <br>
-        <button class="btn btn-primary pull-right" type="submit">Save Profile</button>
-    </form>
-  </div>
+  <section class="utility-page" aria-labelledby="edit-profile-title">
+      <article class="card utility-card utility-card-wide">
+          <header class="utility-card-header">
+              <h1 id="edit-profile-title" class="utility-title">Edit Profile</h1>
+              <p class="utility-subtitle">Update your account details and keep your profile information current.</p>
+          </header>
+
+          <div class="card-body utility-card-body">
+              <form action="" method="post" class="utility-form" aria-labelledby="edit-profile-title">
+                  {% csrf_token %}
+
+                  {% if form.non_field_errors %}
+                      {% for error in form.non_field_errors %}
+                          <div class="alert alert-danger" role="alert">{{ error|escape }}</div>
+                      {% endfor %}
+                  {% endif %}
+
+                  <div class="utility-form-grid">
+                      {% for field in form %}
+                          <div class="form-group utility-form-group {% if field.name == 'institute' or field.name == 'attachments' %}utility-field-span{% endif %}">
+                              <label class="utility-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                              {{ field }}
+                              {% if field.help_text %}<small class="utility-help">{{ field.help_text|safe }}</small>{% endif %}
+                              {% for error in field.errors %}<div class="utility-error">{{ error|escape }}</div>{% endfor %}
+                          </div>
+                      {% endfor %}
+                  </div>
+
+                  <div class="utility-actions utility-actions-end" role="group" aria-label="Edit profile actions">
+                      <button class="btn btn-primary utility-btn-primary" type="submit">Save Profile</button>
+                      <a href="{% url 'workshop_app:index' %}" class="btn btn-outline-secondary utility-btn-secondary">Cancel</a>
+                  </div>
+              </form>
+          </div>
+      </article>
+  </section>
 {% endblock %}

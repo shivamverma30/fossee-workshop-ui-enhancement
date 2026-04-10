@@ -5,6 +5,30 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{% block meta_description %}FOSSEE Workshops portal for managing, proposing, and tracking technical workshops across institutes.{% endblock %}">
+    <meta name="robots" content="{% block meta_robots %}index,follow{% endblock %}">
+    <meta name="theme-color" content="#1d4ed8">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FOSSEE Workshops">
+    <meta property="og:title" content="{% block og_title %}FOSSEE Workshops{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}FOSSEE Workshops portal for managing, proposing, and tracking technical workshops across institutes.{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{% block twitter_title %}FOSSEE Workshops{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}FOSSEE Workshops portal for managing, proposing, and tracking technical workshops across institutes.{% endblock %}">
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "FOSSEE Workshops",
+            "url": "{{ request.scheme }}://{{ request.get_host }}"
+        }
+    </script>
+
     <title>
         {% block title %}
             HomePage

@@ -5,46 +5,56 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h2 class="text-center m-2">New Workshop Type</h2>
-        <br>
-        <form method="post">
-            <div class="row my-3">
-                <div class="col-3 font-weight-bold">Workshop Name :</div>
-                <div class="col text-left">
-                    <div class="row"><div class="col">{{ form.name }}</div></div>
-                    <div class="row m-1 text-danger"><div class="col">{{ form.name.errors }}</div></div>
-                </div>
+    <section class="utility-page" aria-labelledby="add-workshop-type-title">
+        <article class="card utility-card utility-card-wide">
+            <header class="utility-card-header">
+                <h1 id="add-workshop-type-title" class="utility-title">New Workshop Type</h1>
+                <p class="utility-subtitle">Create a new workshop template with duration, description, and terms.</p>
+            </header>
 
-            </div>
-            <div class="row my-3">
-                <div class="col-3 font-weight-bold">Duration :</div>
-                <div class="col text-left">
-                    <div class="row"><div class="col">{{ form.duration }}</div></div>
-                    <div class="row m-1 text-muted"><div class="col">{{ form.duration.help_text }}</div></div>
-                    <div class="row m-1 text-danger"><div class="col">{{ form.duration.errors }}</div></div>
-                </div>
-            </div>
-            <div class="row my-3">
-                <div class="col-3 font-weight-bold">Description :</div>
-                <div class="col text-left">
-                    <div class="row"><div class="col">{{ form.description }}</div></div>
-                    <div class="row m-1 text-danger"><div class="col">{{ form.description.errors }}</div></div>
-                </div>
-            </div>
-            <div class="row my-3">
-                <div class="col-3 font-weight-bold">Terms and Conditions :</div>
-                <div class="col text-left">
-                    <div class="row"><div class="col">{{ form.terms_and_conditions }}</div></div>
-                    <div class="row m-1 text-danger"><div class="col">{{ form.terms_and_conditions.errors }}</div></div>
-                </div>
-            </div>
+            <div class="card-body utility-card-body">
+                <form method="post" class="utility-form" aria-labelledby="add-workshop-type-title">
+                    {% csrf_token %}
 
-            <div class="row my-3">
-                <div class="col-12">
-                    <button type="submit" class="btn btn-md btn-primary float-right m-3">Create</button>
-                </div>
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">{{ error|escape }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="utility-form-grid utility-form-grid-single">
+                        <div class="form-group utility-form-group">
+                            <label class="utility-label" for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                            {{ form.name }}
+                            {% for error in form.name.errors %}<div class="utility-error">{{ error|escape }}</div>{% endfor %}
+                        </div>
+
+                        <div class="form-group utility-form-group">
+                            <label class="utility-label" for="{{ form.duration.id_for_label }}">{{ form.duration.label }}</label>
+                            {{ form.duration }}
+                            {% if form.duration.help_text %}<small class="utility-help">{{ form.duration.help_text }}</small>{% endif %}
+                            {% for error in form.duration.errors %}<div class="utility-error">{{ error|escape }}</div>{% endfor %}
+                        </div>
+
+                        <div class="form-group utility-form-group">
+                            <label class="utility-label" for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+                            {{ form.description }}
+                            {% for error in form.description.errors %}<div class="utility-error">{{ error|escape }}</div>{% endfor %}
+                        </div>
+
+                        <div class="form-group utility-form-group">
+                            <label class="utility-label" for="{{ form.terms_and_conditions.id_for_label }}">{{ form.terms_and_conditions.label }}</label>
+                            {{ form.terms_and_conditions }}
+                            {% for error in form.terms_and_conditions.errors %}<div class="utility-error">{{ error|escape }}</div>{% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="utility-actions utility-actions-end" role="group" aria-label="Add workshop type actions">
+                        <button type="submit" class="btn btn-primary utility-btn-primary">Create</button>
+                        <a href="{% url 'workshop_app:workshop_type_list' %}" class="btn btn-outline-secondary utility-btn-secondary">Cancel</a>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
+        </article>
+    </section>
 {% endblock %}

@@ -14,93 +14,93 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h2 class="text-center m-2">View / Edit Workshop Type</h2>
-        <br>
-        <form method="post" enctype="multipart/form-data">
-            <div class="row my-3">
-                <div class="col-3 font-weight-bold">Workshop Name :</div>
-                <div class="col text-left">
-                    <div class="row">
-                        <div class="col">{{ form.name }}</div>
-                    </div>
-                    <div class="row m-1 text-danger">
-                        <div class="col">{{ form.name.errors }}</div>
-                    </div>
-                </div>
+    <section class="utility-page" aria-labelledby="edit-workshop-type-title">
+        <article class="card utility-card utility-card-wide">
+            <header class="utility-card-header">
+                <h1 id="edit-workshop-type-title" class="utility-title">View or Edit Workshop Type</h1>
+                <p class="utility-subtitle">Update workshop metadata and manage attachment files.</p>
+            </header>
 
-            </div>
-            <div class="row my-3">
-                <div class="col-3 font-weight-bold">Duration :</div>
-                <div class="col text-left">
-                    <div class="row">
-                        <div class="col">{{ form.duration }}</div>
-                    </div>
-                    <div class="row m-1 text-muted">
-                        <div class="col">{{ form.duration.help_text }}</div>
-                    </div>
-                    <div class="row m-1 text-danger">
-                        <div class="col">{{ form.duration.errors }}</div>
-                    </div>
-                </div>
-            </div>
-            <div class="row my-3">
-                <div class="col-3 font-weight-bold">Description :</div>
-                <div class="col text-left">
-                    <div class="row">
-                        <div class="col">{{ form.description }}</div>
-                    </div>
-                    <div class="row m-1 text-danger">
-                        <div class="col">{{ form.description.errors }}</div>
-                    </div>
-                </div>
-            </div>
-            <div class="row my-3">
-                <div class="col-3 font-weight-bold">Terms and Conditions :</div>
-                <div class="col text-left">
-                    <div class="row">
-                        <div class="col">{{ form.terms_and_conditions }}</div>
-                    </div>
-                    <div class="row m-1 text-danger">
-                        <div class="col">{{ form.terms_and_conditions.errors }}</div>
-                    </div>
-                </div>
-            </div>
+            <div class="card-body utility-card-body">
+                <form method="post" enctype="multipart/form-data" class="utility-form" aria-labelledby="edit-workshop-type-title">
+                    {% csrf_token %}
 
-            <h2 class="text-center m-2">Attachments</h2>
-            {{ form_file.management_form }}
-            {{ form_file.non_form_errors }}
-            {% for form in form_file %}
-                <div class="inline {{ form_file.prefix }} my-4">
-                    <div class="row">
-                        <div class="col-11">
-                            {% for field in form %}
-                                <div class="col-6">{{ field }}</div>
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">{{ error|escape }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="utility-form-grid utility-form-grid-single">
+                        <div class="form-group utility-form-group">
+                            <label class="utility-label" for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                            {{ form.name }}
+                            {% for error in form.name.errors %}<div class="utility-error">{{ error|escape }}</div>{% endfor %}
+                        </div>
+
+                        <div class="form-group utility-form-group">
+                            <label class="utility-label" for="{{ form.duration.id_for_label }}">{{ form.duration.label }}</label>
+                            {{ form.duration }}
+                            {% if form.duration.help_text %}<small class="utility-help">{{ form.duration.help_text }}</small>{% endif %}
+                            {% for error in form.duration.errors %}<div class="utility-error">{{ error|escape }}</div>{% endfor %}
+                        </div>
+
+                        <div class="form-group utility-form-group">
+                            <label class="utility-label" for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+                            {{ form.description }}
+                            {% for error in form.description.errors %}<div class="utility-error">{{ error|escape }}</div>{% endfor %}
+                        </div>
+
+                        <div class="form-group utility-form-group">
+                            <label class="utility-label" for="{{ form.terms_and_conditions.id_for_label }}">{{ form.terms_and_conditions.label }}</label>
+                            {{ form.terms_and_conditions }}
+                            {% for error in form.terms_and_conditions.errors %}<div class="utility-error">{{ error|escape }}</div>{% endfor %}
+                        </div>
+                    </div>
+
+                    <section class="utility-attachments" aria-labelledby="attachments-title">
+                        <h2 id="attachments-title" class="utility-section-title">Attachments</h2>
+
+                        {{ form_file.management_form }}
+                        {{ form_file.non_form_errors }}
+
+                        <div class="utility-attachment-stack">
+                            {% for attachment_form in form_file %}
+                                <div class="inline {{ form_file.prefix }} utility-attachment-row">
+                                    {% for hidden in attachment_form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+
+                                    <div class="utility-attachment-main">
+                                        <label class="utility-label" for="{{ attachment_form.attachments.id_for_label }}">Attachment {{ forloop.counter }}</label>
+                                        {{ attachment_form.attachments }}
+                                        {% for error in attachment_form.attachments.errors %}<div class="utility-error">{{ error|escape }}</div>{% endfor %}
+                                    </div>
+
+                                    {% if attachment_form.id.value %}
+                                        <div class="utility-attachment-action">
+                                            <a href="{% url 'workshop_app:delete_attachment_file' attachment_form.id.value %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                                        </div>
+                                    {% endif %}
+                                </div>
                             {% endfor %}
                         </div>
-                    {% if form.id.value %}
-                    <div class="col-1">
-                        <a href="{% url 'workshop_app:delete_attachment_file' form.id.value %}"><button class="btn btn-md btn-danger float-right" type="button">Delete</button></a>
-                    </div>
-                    {% endif %}
-                    </div>
+                    </section>
 
-                </div>
-                <hr>
-            {% endfor %}
-            <div class="row my-3">
-                <div class="col-12">
-                    <button type="submit" class="btn btn-md btn-primary float-right m-3">Save</button>
-                </div>
+                    <div class="utility-actions utility-actions-end" role="group" aria-label="Edit workshop type actions">
+                        <button type="submit" class="btn btn-primary utility-btn-primary">Save</button>
+                        <a href="{% url 'workshop_app:workshop_type_list' %}" class="btn btn-outline-secondary utility-btn-secondary">Back</a>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
-    <br><br><br><br>
+        </article>
+    </section>
+
     <script type="text/javascript">
         $(function () {
             $(".inline.{{ form_file.prefix }}").formset({
                 prefix: "{{ form_file.prefix }}", // The form prefix for your django formset
-                addCssClass: "btn btn-md btn-primary bordered inline-form-add", // CSS class applied to the add link
+                addCssClass: "btn btn-primary utility-inline-add", // CSS class applied to the add link
                 deleteCssClass: "hidden", // CSS class applied to the delete link
                 addText: 'Add another attachment', // Text for the add link
                 deleteText: '',

@@ -5,33 +5,37 @@
 {% endblock %}
 
 {% block content %}
+<section class="utility-page team-stats-page" aria-labelledby="team-stats-title">
+    <header class="utility-page-header">
+        <h1 id="team-stats-title" class="utility-title">Team Statistics</h1>
+        <p class="utility-subtitle">Compare workshop counts across members for the selected team.</p>
+    </header>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2">
-            <ul class="nav nav-pills list-group">
+    <div class="team-stats-layout">
+        <aside class="card team-nav-card" aria-label="Team selector">
+            <h2 class="team-nav-title">Teams</h2>
+            <ul class="team-nav-list">
                 {% for team in all_teams %}
-                    <li class="nav-item">
-                        <a href="{% url 'statistics_app:team' team.id %}" class="nav-link list-group-item">
-                            Team {{forloop.counter}}
+                    <li>
+                        <a href="{% url 'statistics_app:team' team.id %}" class="team-nav-link{% if team.id == team_id %} active{% endif %}">
+                            Team {{ forloop.counter }}
                         </a>
                     </li>
                 {% endfor %}
             </ul>
-        </div>
-        <div class="col-md-8">
-            <br>
-            <canvas id="myChart"></canvas>
-        </div>
+        </aside>
+
+        <section class="card team-chart-card" aria-label="Team chart panel">
+            <div class="team-chart-wrap">
+                <canvas id="myChart" aria-label="Team members workshop count chart"></canvas>
+            </div>
+        </section>
     </div>
-</div>
+</section>
 <script>
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
-        // The type of chart we want to create
         type: 'bar',
-
-        // The data for our dataset
         data: {
             labels: {{team_labels|safe}},
             datasets: [{
@@ -41,8 +45,21 @@
                 borderColor: 'rgb(255, 99, 132)',
             }]
         },
-        // Configuration options go here
-        options: {}
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                display: true
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        precision: 0
+                    }
+                }]
+            }
+        }
     });
 </script>
 {% endblock %}

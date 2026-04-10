@@ -5,27 +5,38 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h2 class="text-center m-3">Workshop Details</h2>
-        <table class="table table-hover">
-            <tr class="d-flex">
-                <th class="col-3">Workshop Name :</th>
-                <td class="col">{{ workshop_type.name }}</td>
-            </tr>
-            <tr class="d-flex">
-                <th class="col-3">Duration :</th>
-                <td class="col">{{ workshop_type.duration }} day(s)</td>
-            </tr>
-            <tr class="d-flex">
-                <th class="col-3">Description :</th>
-                <td class="col">{{ workshop_type.description }}</td>
-            </tr>
-            <tr class="d-flex">
-                <th class="col-3">Terms and Conditions :</th>
-                <td class="col">{{ workshop_type.terms_and_conditions }}</td>
-            </tr>
-        </table>
-    </div>
+    <section class="utility-page" aria-labelledby="workshop-type-details-title">
+        <article class="card utility-card">
+            <header class="utility-card-header">
+                <h1 id="workshop-type-details-title" class="utility-title">Workshop Details</h1>
+                <p class="utility-subtitle">Review workshop overview, duration, and participation rules.</p>
+            </header>
+
+            <div class="card-body utility-card-body">
+                <dl class="utility-info-grid utility-info-grid-single">
+                    <div class="utility-info-row"><dt>Workshop Name</dt><dd>{{ workshop_type.name }}</dd></div>
+                    <div class="utility-info-row"><dt>Duration</dt><dd>{{ workshop_type.duration }} day(s)</dd></div>
+                    <div class="utility-info-row"><dt>Description</dt><dd>{{ workshop_type.description }}</dd></div>
+                    <div class="utility-info-row"><dt>Terms and Conditions</dt><dd>{{ workshop_type.terms_and_conditions }}</dd></div>
+                </dl>
+
+                {% if workshop_type.attachmentfile_set.all %}
+                    <section class="utility-attachments" aria-label="Workshop attachments">
+                        <h2 class="utility-section-title">Attachments</h2>
+                        <ul class="utility-attachment-list">
+                            {% for attachment in workshop_type.attachmentfile_set.all %}
+                                <li>
+                                    <a href="{{ attachment.attachments.url }}" target="_blank" rel="noopener">
+                                        {{ attachment.attachments.name|cut:'workshop_app/attachments/' }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </section>
+                {% endif %}
+            </div>
+        </article>
+    </section>
 
 {% endblock %}
 
