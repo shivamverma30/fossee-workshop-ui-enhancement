@@ -80,14 +80,15 @@ Total screenshots: **14**
 | ![Mobile Before Public Stats](docs/screenshots/11-mobile-before-public-stats.png) | ![Mobile After Public Stats](docs/screenshots/12-mobile-after-public-stats.png) |
 | ![Mobile Before Propose Workshop](docs/screenshots/13-mobile-before-propose-workshop.png) | ![Mobile After Propose Workshop](docs/screenshots/14-mobile-after-propose-workshop.png) |
 
-## Demo Video
+## Live Demo
 
-These clips show the main workflow, including dashboard flow, public stats interaction, and mobile behavior.
+These demos show the before/after comparison and the full workflow in real use.
+They cover both desktop and mobile flows.
 
-- Desktop Before: [docs/videos/desktop_before.mp4](docs/videos/desktop_before.mp4)
-- Desktop After: [docs/videos/desktop_after.mp4](docs/videos/desktop_after.mp4)
-- Mobile Before: [docs/videos/mobile_before.mp4](docs/videos/mobile_before.mp4)
-- Mobile After: [docs/videos/mobile_after.mp4](docs/videos/mobile_after.mp4)
+* Desktop Before: https://drive.google.com/file/d/1qCdmW-lwXaCbadSOK3dxDTXhwd9F-JV4/view?usp=drive_link
+* Desktop After: https://drive.google.com/file/d/1QKMIzT_8PdTOzRudZAedbUfGMTQJZG1i/view?usp=drive_link
+* Mobile Before: https://drive.google.com/file/d/1wgv-c0nhWQFhftgX-Yf8VMZhKN-uM9Ol/view?usp=drive_link
+* Mobile After: https://drive.google.com/file/d/1xDPmYuRHbsbnjzMYfygqvOLoBvMDDozd/view?usp=drive_link
 
 ## Setup Instructions
 
