@@ -242,7 +242,6 @@
     }
 
     function initPublicStatsReactCharts() {
-        // keep fallback clicks wired before trying to mount React
         bindFallbackButtons();
         syncFiltersPanel();
         bindResizeHandler();

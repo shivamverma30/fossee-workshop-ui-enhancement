@@ -28,8 +28,6 @@
 
     <div class="public-stats-layout">
         <aside class="public-stats-sidebar" aria-label="Filters sidebar">
-            <!-- left sidebar filters -->
-            <!-- responsive layout for mobile -->
             <details class="public-stats-filters" open>
                 <summary class="public-stats-filters-summary">
                     <span class="material-icons" aria-hidden="true">tune</span>
@@ -123,7 +121,6 @@
                 </div>
 
                 <div class="public-stats-chart-actions-shell" aria-live="polite">
-                    <!-- keep fallback controls so chart actions still work without React mount -->
                     <div id="stats-chart-actions-fallback" class="public-stats-chart-actions" role="group" aria-label="Chart actions">
                         <button class="btn btn-info stats-btn stats-btn-chart" id="state_graph" type="button" aria-label="Open state chart" aria-controls="dialog" data-graph-type="state">
                             <span class="material-icons" aria-hidden="true">bar_chart</span>
@@ -139,8 +136,6 @@
             </header>
 
             <div class="public-stats-table-card">
-                <!-- improve table readability on smaller screens -->
-                <!-- keep one pagination block below table to avoid duplicate page numbers -->
                 <div class="table-responsive public-stats-table-wrap">
                     <table class="table workshop-table public-stats-table">
                         <thead>
@@ -185,7 +180,6 @@
     </div>
 </section>
 
-<!-- The Modal -->
 <div id="dialog" title="Workshops Statistics">
     <canvas id="myChart"></canvas>
 </div>

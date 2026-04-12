@@ -44,7 +44,6 @@
             </div>
 
             {% if workshops %}
-                {# small UI cleanup: separate tables into clear sections #}
                 <section class="dashboard-table-card">
                     <h3 class="dashboard-section-title">Workshops Accepted</h3>
                     <div class="dashboard-table-wrap">
@@ -116,7 +115,6 @@
     </section>
 
     <script>
-        // quick client-side count from rendered workshop statuses
         (function () {
             var statusNodes = document.querySelectorAll('.coordinator-status-source [data-workshop-status]');
             var pendingCount = 0;

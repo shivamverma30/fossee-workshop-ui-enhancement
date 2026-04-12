@@ -72,6 +72,14 @@ class StatisticsViewsTest(TestCase):
         response = self.client.get(reverse("statistics_app:team"))
         self.assertEqual(response.status_code, 302)
 
+    def test_team_statistics_redirects_when_no_teams_exist(self):
+        user, _ = self.create_user_with_profile("instructor_no_team", "instructor")
+        self.client.login(username=user.username, password="pass@12345")
+
+        response = self.client.get(reverse("statistics_app:team"))
+
+        self.assertEqual(response.status_code, 302)
+
     def test_team_statistics_redirects_non_member(self):
         creator, creator_profile = self.create_user_with_profile("team_creator", "instructor")
         outsider, _ = self.create_user_with_profile("team_outsider", "instructor")

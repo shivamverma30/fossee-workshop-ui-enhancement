@@ -107,10 +107,23 @@ def workshop_public_stats(request):
 def team_stats(request, team_id=None):
     user = request.user
     teams = Team.objects.all()
+
+    if not teams.exists():
+        messages.add_message(
+            request, messages.INFO, "No teams are available right now"
+        )
+        return redirect(reverse("workshop_app:index"))
+
     if team_id:
-        team = teams.get(id=team_id)
+        team = teams.filter(id=team_id).first()
+        if not team:
+            messages.add_message(
+                request, messages.INFO, "Selected team was not found"
+            )
+            return redirect(reverse("statistics_app:team"))
     else:
         team = teams.first()
+
     if not team.members.filter(user_id=user.id).exists():
         messages.add_message(
             request, messages.INFO, "You are not added to the team"
