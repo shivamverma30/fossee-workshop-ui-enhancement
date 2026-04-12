@@ -5,6 +5,7 @@
     var fallbackBound = false;
     var reactMounted = false;
     var resizeBound = false;
+    var resizeHandle = null;
 
     function getViewportWidth() {
         return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
@@ -145,11 +146,17 @@
         }
 
         window.addEventListener('resize', function () {
-            syncFiltersPanel();
-
-            if (chartInstance && typeof chartInstance.resize === 'function') {
-                chartInstance.resize();
+            if (resizeHandle) {
+                window.cancelAnimationFrame(resizeHandle);
             }
+
+            resizeHandle = window.requestAnimationFrame(function () {
+                syncFiltersPanel();
+
+                if (chartInstance && typeof chartInstance.resize === 'function') {
+                    chartInstance.resize();
+                }
+            });
         });
 
         resizeBound = true;
@@ -160,18 +167,13 @@
             return;
         }
 
-        var stateButton = document.getElementById('state_graph') || document.getElementById('state_graph_fallback');
-        var typeButton = document.getElementById('type_graph') || document.getElementById('type_graph_fallback');
-
-        if (stateButton && !stateButton.getAttribute('onclick')) {
-            stateButton.addEventListener('click', function () {
-                showPublicStatsGraph('state');
-            });
-        }
-
-        if (typeButton && !typeButton.getAttribute('onclick')) {
-            typeButton.addEventListener('click', function () {
-                showPublicStatsGraph('type');
+        var fallbackButtons = document.querySelectorAll('#stats-chart-actions-fallback [data-graph-type]');
+        for (var i = 0; i < fallbackButtons.length; i++) {
+            fallbackButtons[i].addEventListener('click', function () {
+                var graphType = this.getAttribute('data-graph-type');
+                if (graphType) {
+                    showPublicStatsGraph(graphType);
+                }
             });
         }
 
@@ -187,6 +189,7 @@
                 className: 'btn btn-info stats-btn stats-btn-chart',
                 'aria-label': type === 'state' ? 'Open state chart' : 'Open workshops chart',
                 'aria-controls': 'dialog',
+                'data-graph-type': type,
                 onClick: function () {
                     showPublicStatsGraph(type);
                 }

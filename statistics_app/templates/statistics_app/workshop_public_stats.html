@@ -3,8 +3,18 @@
 
 {% block title %} Statistics {% endblock %}
 
+{% block meta_description %}
+    Public workshop statistics with filters, pagination, and interactive charts for workshop type and state insights.
+{% endblock %}
+
+{% block og_title %}Workshop Statistics | FOSSEE Workshops{% endblock %}
+{% block twitter_title %}Workshop Statistics | FOSSEE Workshops{% endblock %}
+
 {% block extra-dependencies %}
     {{ block.super }}
+    <link rel="stylesheet" href="{% static 'workshop_app/css/jquery-ui.css' %}" type="text/css"/>
+    <script src="{% static 'workshop_app/js/jquery-ui.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
 {% endblock %}
@@ -115,11 +125,11 @@
                 <div class="public-stats-chart-actions-shell" aria-live="polite">
                     <!-- keep fallback controls so chart actions still work without React mount -->
                     <div id="stats-chart-actions-fallback" class="public-stats-chart-actions" role="group" aria-label="Chart actions">
-                        <button class="btn btn-info stats-btn stats-btn-chart" id="state_graph" type="button" aria-label="Open state chart" aria-controls="dialog" onclick="window.showPublicStatsGraph && window.showPublicStatsGraph('state')">
+                        <button class="btn btn-info stats-btn stats-btn-chart" id="state_graph" type="button" aria-label="Open state chart" aria-controls="dialog" data-graph-type="state">
                             <span class="material-icons" aria-hidden="true">bar_chart</span>
                             <span>State Chart</span>
                         </button>
-                        <button class="btn btn-info stats-btn stats-btn-chart" id="type_graph" type="button" aria-label="Open workshops chart" aria-controls="dialog" onclick="window.showPublicStatsGraph && window.showPublicStatsGraph('type')">
+                        <button class="btn btn-info stats-btn stats-btn-chart" id="type_graph" type="button" aria-label="Open workshops chart" aria-controls="dialog" data-graph-type="type">
                             <span class="material-icons" aria-hidden="true">equalizer</span>
                             <span>Workshops Chart</span>
                         </button>

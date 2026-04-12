@@ -1,4 +1,3 @@
-//ToolTip popup function on-hover
 $(document).ready(function () {
     $('[data-toggle="popover"]').popover({
         placement: 'top',
@@ -11,40 +10,51 @@ $(document).ready(function () {
     });
 });
 
-// Change date modal
-function changeDate(date) {
-    let previous_date = new Date(date);
-    let dateToday = new Date();
-    let upto = new Date();
-
-    previous_date.setDate(previous_date.getDate() + 1);
-    upto.setFullYear(dateToday.getFullYear() + 1);
-
-    let counter = date.split(" ");
-    const id = counter.slice(-1).pop();
-    if (date[0] === 'P') {
-        counter = '.pDate' + id
-        $(counter).datepicker({
-            changeMonth: true,
-            changeYear: true,
-            minDate: dateToday,
-            maxDate: upto,
-            dateFormat: "yy-mm-dd",
-        });
-        $(".ui-dialog-content").dialog("close");
-        $('.myDialogP' + id).dialog();
-
-    } else {
-        counter = '.rDate' + id;
-        $(counter).datepicker({
-            changeMonth: true,
-            changeYear: true,
-            minDate: dateToday,
-            maxDate: upto,
-            dateFormat: "yy-mm-dd",
-        });
-        $(".ui-dialog-content").dialog("close");
-        $('.myDialogR' + id).dialog();
-
+function openRescheduleDialog(button) {
+    var dialogIndex = button.getAttribute('data-dialog-index');
+    if (!dialogIndex) {
+        return;
     }
-};
+
+    var dateToday = new Date();
+    var maxDate = new Date();
+    maxDate.setFullYear(dateToday.getFullYear() + 1);
+
+    $('.rDate' + dialogIndex).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        minDate: dateToday,
+        maxDate: maxDate,
+        dateFormat: 'yy-mm-dd'
+    });
+
+    $('.ui-dialog-content').dialog('close');
+    $('.myDialogR' + dialogIndex).dialog();
+}
+
+function bindInstructorDashboardActions() {
+    var rescheduleButtons = document.querySelectorAll('.js-open-reschedule-dialog');
+    var acceptButtons = document.querySelectorAll('.js-confirm-accept');
+
+    for (var i = 0; i < rescheduleButtons.length; i += 1) {
+        // moved inline handler here so keyboard/mouse behavior stays consistent
+        rescheduleButtons[i].addEventListener('click', function () {
+            openRescheduleDialog(this);
+        });
+    }
+
+    for (var j = 0; j < acceptButtons.length; j += 1) {
+        acceptButtons[j].addEventListener('click', function (event) {
+            var confirmMessage = this.getAttribute('data-confirm-message') || 'Accept this workshop request?';
+            if (!window.confirm(confirmMessage)) {
+                event.preventDefault();
+            }
+        });
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindInstructorDashboardActions);
+} else {
+    bindInstructorDashboardActions();
+}

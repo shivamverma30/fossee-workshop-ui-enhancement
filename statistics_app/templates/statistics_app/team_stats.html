@@ -1,7 +1,22 @@
 {% extends 'workshop_app/base.html' %}
+{% load static %}
 
 {% block title %}
  Workshop  Statistics
+{% endblock %}
+
+{% block meta_description %}
+    Team statistics dashboard showing workshop distribution across members with interactive chart controls.
+{% endblock %}
+
+{% block og_title %}Team Statistics | FOSSEE Workshops{% endblock %}
+{% block twitter_title %}Team Statistics | FOSSEE Workshops{% endblock %}
+
+{% block extra-dependencies %}
+    {{ block.super }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -26,40 +41,24 @@
         </aside>
 
         <section class="card team-chart-card" aria-label="Team chart panel">
+            <div class="team-chart-toolbar-shell" aria-live="polite">
+                <div id="team-chart-actions-fallback" class="team-chart-actions" role="group" aria-label="Chart type controls">
+                    <button type="button" class="btn btn-info team-chart-action-btn" data-chart-type="bar">Bar Chart</button>
+                    <button type="button" class="btn btn-outline-info team-chart-action-btn" data-chart-type="line">Line Chart</button>
+                </div>
+                <div id="team-chart-react-root"></div>
+            </div>
             <div class="team-chart-wrap">
                 <canvas id="myChart" aria-label="Team members workshop count chart"></canvas>
             </div>
         </section>
     </div>
 </section>
-<script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: {{team_labels|safe}},
-            datasets: [{
-                data: {{ws_count|safe}},
-                label: "Team Members Workshops",
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            legend: {
-                display: true
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true,
-                        precision: 0
-                    }
-                }]
-            }
-        }
-    });
+<script type="text/javascript">
+    window.TEAM_STATS_DATA = {
+        labels: {{ team_labels|safe }},
+        counts: {{ ws_count|safe }}
+    };
 </script>
+<script src="{% static 'statistics_app/js/team_stats_react.js' %}"></script>
 {% endblock %}

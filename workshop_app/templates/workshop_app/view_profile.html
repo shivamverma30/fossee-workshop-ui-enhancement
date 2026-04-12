@@ -3,7 +3,7 @@
 {% block title %} Profile {% endblock %}
 
 {% block content %}
-    <section class="utility-page" aria-labelledby="profile-page-title">
+    <section class="utility-page" aria-label="Profile page">
         {% if Workshops %}
             <header class="utility-page-header">
                 <h1 id="profile-page-title" class="utility-title">Coordinator Profile</h1>
@@ -58,14 +58,14 @@
                 </div>
             </article>
         {% else %}
-            <article class="card utility-card utility-card-wide" aria-labelledby="profile-page-title">
+            <article class="card utility-card utility-card-wide" aria-labelledby="my-profile-page-title">
                 <header class="utility-card-header">
-                    <h1 id="profile-page-title" class="utility-title">My Profile</h1>
+                    <h1 id="my-profile-page-title" class="utility-title">My Profile</h1>
                     <p class="utility-subtitle">Update your personal details and institute information.</p>
                 </header>
 
                 <div class="card-body utility-card-body">
-                    <form action="" method="post" class="utility-form" aria-labelledby="profile-page-title">
+                    <form action="" method="post" class="utility-form" aria-labelledby="my-profile-page-title">
                         {% csrf_token %}
 
                         {% if form.non_field_errors %}

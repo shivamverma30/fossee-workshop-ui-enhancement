@@ -5,23 +5,29 @@
     Workshop Status
 {% endblock %}
 
+{% block meta_description %}
+    Instructor dashboard to review workshop requests, accept proposals, and adjust workshop dates.
+{% endblock %}
+
+{% block og_title %}Instructor Workshop Status | FOSSEE Workshops{% endblock %}
+{% block twitter_title %}Instructor Workshop Status | FOSSEE Workshops{% endblock %}
+
 {% block extra-dependencies %}
+    {{ block.super }}
     <link rel="stylesheet" href="{% static 'workshop_app/css/jquery-ui.css' %}" type="text/css"/>
-    <script src="{% static 'workshop_app/js/jquery-1.12.4.js' %}"></script>
     <script src="{% static 'workshop_app/js/jquery-ui.min.js' %}"></script>
 {% endblock %}
 {% block extra-custom-scripts %}
-    {% load static %}
     <script src="{% static 'workshop_app/js/datepicker.js' %}"></script>
 {% endblock %}
 
 
 {% block content %}
-    <section class="dashboard-shell" aria-labelledby="instructor-dashboard-title">
+    <section class="dashboard-shell" aria-label="Instructor workshop dashboard">
     {% if not workshops %}
         <div class="dashboard-card">
             <div class="jumbotron dashboard-empty-state">
-                <h1 id="instructor-dashboard-title">Welcome {{ user.first_name }}</h1>
+                <h1 id="instructor-dashboard-welcome-title">Welcome {{ user.first_name }}</h1>
                 <p>Your workshop related information will be shown here, Please navigate to <b>Workshop list</b> and
                     depending upon
                     your expertise and availability create a workshop by going to
@@ -31,22 +37,21 @@
     {% else %}
         <div class="dashboard-card">
             <div class="dashboard-header">
-                <h1 id="instructor-dashboard-title" class="dashboard-page-title">Workshop Status</h1>
+                <h1 id="instructor-dashboard-main-title" class="dashboard-page-title">Workshop Status</h1>
                 <p class="dashboard-page-subtitle">Track accepted and incoming workshop requests.</p>
             </div>
 
-            {# small UI cleanup: add card wrappers for each data table #}
             <section class="dashboard-table-card">
                 <h2 class="dashboard-section-title">Workshops Accepted</h2>
                 <div class="dashboard-table-wrap">
                     <table class="table dashboard-table">
                         <thead>
                             <tr>
-                                <th>Coordinator Name</th>
-                                <th>Institute</th>
-                                <th>Workshop Name</th>
-                                <th>Workshop Day</th>
-                                <th>Status</th>
+                                <th scope="col">Coordinator Name</th>
+                                <th scope="col">Institute</th>
+                                <th scope="col">Workshop Name</th>
+                                <th scope="col">Workshop Day</th>
+                                <th scope="col">Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,13 +69,15 @@
                                                 <span>{{ workshop.date | date }}</span>
                                                 {% if workshop.date > today %}
                                                     <button type="button"
-                                                            class="material-icons datepicker btn dashboard-inline-action"
+                                                            class="material-icons datepicker btn dashboard-inline-action js-open-reschedule-dialog"
                                                             data-toggle="popinfo"
                                                             title="Note"
                                                             data-content="Choose this to change workshop date"
                                                             aria-label="Change workshop date"
-                                                            onclick="changeDate('R,{{ workshop.date| safe }}, {{ forloop.counter }}')">event</button>
-                                                    <div class="myDialogR{{ forloop.counter }}" style="display: none;"
+                                                            aria-haspopup="dialog"
+                                                            aria-controls="reschedule-dialog-{{ forloop.counter }}"
+                                                            data-dialog-index="{{ forloop.counter }}">event</button>
+                                                    <div class="myDialogR{{ forloop.counter }}" id="reschedule-dialog-{{ forloop.counter }}" style="display: none;"
                                                          title="Select New Date">
                                                         <form method="post" action="{% url 'workshop_app:change_workshop_date' workshop.id %}">
                                                             <label class="sr-only" for="reschedule-date-{{ forloop.counter }}">New date</label>
@@ -98,12 +105,12 @@
                     <table class="table dashboard-table">
                         <thead>
                             <tr>
-                                <th>Coordinator Name</th>
-                                <th>Institute</th>
-                                <th>Workshop Name</th>
-                                <th>Workshop Day</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th scope="col">Coordinator Name</th>
+                                <th scope="col">Institute</th>
+                                <th scope="col">Workshop Name</th>
+                                <th scope="col">Workshop Day</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         {% csrf_token %}
@@ -120,7 +127,7 @@
                                         <td>{{ workshop.date | date }}</td>
                                         <td><span class="badge badge-warning">{{ workshop.get_status }}</span></td>
                                         <td class="dashboard-action-cell">
-                                            <a href="{% url 'workshop_app:accept_workshop' workshop.id %}" class="btn btn-primary btn-sm dashboard-action-btn" aria-label="Accept this workshop request" onclick="return confirm('Once accepted you cannot reject, you have to personally contact the Coordinator if the workshop is to be cancelled. Are you sure you want to accept the workshop?')">
+                                            <a href="{% url 'workshop_app:accept_workshop' workshop.id %}" class="btn btn-primary btn-sm dashboard-action-btn js-confirm-accept" aria-label="Accept this workshop request" data-confirm-message="Once accepted, this workshop cannot be rejected from the dashboard. Continue?">
                                                 Accept
                                             </a>
                                         </td>

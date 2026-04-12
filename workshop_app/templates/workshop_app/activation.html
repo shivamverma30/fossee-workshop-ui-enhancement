@@ -5,12 +5,12 @@
 {% endblock %}
 
 {% block content %}
-    <section class="status-shell" aria-labelledby="activation-status-title">
+    <section class="status-shell" aria-label="Account activation status">
         <article class="card status-card">
             <div class="card-body status-card-body">
                 {% if status == '2' %}
                     <div class="status-icon status-icon-info" aria-hidden="true"><span class="material-icons">verified</span></div>
-                    <h1 id="activation-status-title" class="status-title">Email already verified</h1>
+                    <h1 class="status-title">Email already verified</h1>
                     <p class="status-text">Your account is already active. Continue to your dashboard.</p>
                     <div class="status-actions">
                         <a href="{% url 'workshop_app:index' %}" class="btn btn-primary status-btn">Go to Dashboard</a>
@@ -22,14 +22,14 @@
                         }, 3000);
                     </script>
                     <div class="status-icon status-icon-warning" aria-hidden="true"><span class="material-icons">timer_off</span></div>
-                    <h1 id="activation-status-title" class="status-title">Activation link expired</h1>
+                    <h1 class="status-title">Activation link expired</h1>
                     <p class="status-text">Your activation link has expired. You will be redirected to registration shortly.</p>
                     <div class="status-actions">
                         <a href="{% url 'workshop_app:register' %}" class="btn btn-primary status-btn">Register Again</a>
                     </div>
                 {% elif status == '0' %}
                     <div class="status-icon status-icon-success" aria-hidden="true"><span class="material-icons">check_circle</span></div>
-                    <h1 id="activation-status-title" class="status-title">Account activated</h1>
+                    <h1 class="status-title">Account activated</h1>
                     <p class="status-text">Your account has been activated successfully. You can continue now.</p>
                     <div class="status-actions">
                         <a href="{% url 'workshop_app:index' %}" class="btn btn-primary status-btn">Continue</a>
@@ -41,7 +41,7 @@
                         }, 5000);
                     </script>
                     <div class="status-icon status-icon-info" aria-hidden="true"><span class="material-icons">mail</span></div>
-                    <h1 id="activation-status-title" class="status-title">Activation pending</h1>
+                    <h1 class="status-title">Activation pending</h1>
                     <p class="status-text">An activation link has been sent to your email. The link expires in 24 hours. You will be logged out automatically if not verified.</p>
                     <div class="status-actions">
                         <a href="{% url 'workshop_app:logout' %}" class="btn btn-outline-secondary status-btn">Logout Now</a>

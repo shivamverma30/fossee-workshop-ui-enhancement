@@ -1264,6 +1264,42 @@ summary:focus-visible,
     min-height: 360px;
 }
 
+.team-chart-toolbar-shell {
+    margin-bottom: 0.7rem;
+}
+
+.team-chart-react-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.team-chart-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.team-chart-action-btn {
+    min-height: 2.3rem;
+    min-width: 120px;
+    border-radius: 0.5rem;
+    font-weight: 600;
+}
+
+.team-chart-summary {
+    margin: 0;
+    font-size: 0.92rem;
+    color: #475569;
+    font-weight: 500;
+}
+
+#team-chart-react-root:empty {
+    display: none;
+}
+
 .status-shell {
     max-width: 740px;
     margin: 0 auto;
@@ -1418,6 +1454,21 @@ summary:focus-visible,
 
     .team-chart-wrap {
         min-height: 300px;
+    }
+
+    .team-chart-action-btn {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .team-chart-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .team-chart-react-panel {
+        align-items: stretch;
     }
 
     .status-shell {
@@ -1623,7 +1674,7 @@ summary:focus-visible,
 /* align table actions with the same button scale */
 .dashboard-action-btn {
     min-width: 92px;
-    min-height: 34px;
+    min-height: 38px;
     padding: 0.35rem 0.8rem;
     border-radius: 0.5rem;
     font-weight: 600;
@@ -1642,7 +1693,12 @@ summary:focus-visible,
 }
 
 .dashboard-inline-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     margin-left: 0.25rem;
+    min-width: 2rem;
+    min-height: 2rem;
     padding: 0.2rem 0.35rem;
     border-radius: 0.45rem;
     color: #2563eb;
@@ -1732,6 +1788,15 @@ summary:focus-visible,
 
     .dashboard-table {
         min-width: 620px;
+    }
+
+    .dashboard-action-btn {
+        min-height: 40px;
+    }
+
+    .dashboard-inline-action {
+        min-width: 2.25rem;
+        min-height: 2.25rem;
     }
 
     .dashboard-table thead th,

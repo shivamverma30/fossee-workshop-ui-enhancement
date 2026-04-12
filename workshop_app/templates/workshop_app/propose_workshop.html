@@ -5,39 +5,21 @@
     Propose a workshop
 {% endblock %}
 
+{% block meta_description %}
+    Propose a workshop date, review workshop terms, and submit your request through the FOSSEE workshop portal.
+{% endblock %}
+
+{% block og_title %}Propose Workshop | FOSSEE Workshops{% endblock %}
+{% block twitter_title %}Propose Workshop | FOSSEE Workshops{% endblock %}
+
+{% block extra-dependencies %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'workshop_app/css/jquery-ui.css' %}" type="text/css"/>
+    <script src="{% static 'workshop_app/js/jquery-ui.min.js' %}"></script>
+{% endblock %}
+
 {% block extra-custom-scripts %}
-    <script>
-        var dateToday = new Date();
-        var upto = new Date();
-
-        dateToday.setDate(dateToday.getDate() + 3);
-        upto.setFullYear(dateToday.getFullYear() + 1);
-
-        $(function () {
-            $(".datepicker").datepicker({
-                changeMonth: true,
-                changeYear: true,
-                minDate: dateToday,
-                maxDate: upto,
-                beforeShowDay: $.datepicker.noWeekends,
-            });
-
-
-            $('#disp_tnc').click(function (e) {
-                e.preventDefault()
-                if ($('#id_workshop_type').val() === '')
-                    $('.modal-body').html("<p class='text-danger'>Please select a workshop type</p>")
-                else {
-                    $.ajax({
-                        url: '/workshop/type_tnc/' + $('#id_workshop_type').val(),
-                        success: function (data) {
-                            $('.modal-body').html(data.tnc)
-                        }
-                    })
-                }
-            })
-        });
-    </script>
+    <script src="{% static 'workshop_app/js/propose_workshop.js' %}"></script>
 {% endblock %}
 
 
@@ -55,7 +37,7 @@
             </header>
 
             <div class="card-body utility-card-body">
-                <form method="post" class="utility-form" aria-labelledby="propose-workshop-title">
+                <form method="post" class="utility-form" aria-labelledby="propose-workshop-title" data-tnc-base-url="/workshop/type_tnc/">
                     {% csrf_token %}
 
                     {% if form.non_field_errors %}

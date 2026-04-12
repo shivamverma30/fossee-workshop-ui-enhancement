@@ -8,18 +8,22 @@
     <meta name="description" content="{% block meta_description %}FOSSEE Workshops portal for managing, proposing, and tracking technical workshops across institutes.{% endblock %}">
     <meta name="robots" content="{% block meta_robots %}index,follow{% endblock %}">
     <meta name="theme-color" content="#1d4ed8">
-    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="FOSSEE Workshops">
     <meta property="og:title" content="{% block og_title %}FOSSEE Workshops{% endblock %}">
     <meta property="og:description" content="{% block og_description %}FOSSEE Workshops portal for managing, proposing, and tracking technical workshops across institutes.{% endblock %}">
-    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}">
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="{% block twitter_title %}FOSSEE Workshops{% endblock %}">
     <meta name="twitter:description" content="{% block twitter_description %}FOSSEE Workshops portal for managing, proposing, and tracking technical workshops across institutes.{% endblock %}">
 
+    {% block extra_meta %}
+    {% endblock %}
+
+    {% block structured_data %}
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -28,6 +32,7 @@
             "url": "{{ request.scheme }}://{{ request.get_host }}"
         }
     </script>
+    {% endblock %}
 
     <title>
         {% block title %}
@@ -38,11 +43,9 @@
     {# commit-2 note: move heavy libs to page-level includes where possible #}
 
     <script src="{% static 'workshop_app/js/jquery-3.4.1.min.js' %}"></script>
-    <script src="{% static 'workshop_app/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'workshop_app/js/popper.min.js' %}"></script>
+    <script src="{% static 'workshop_app/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'workshop_app/js/toastr.min.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
 
     {% block extra-dependencies %}
@@ -53,7 +56,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'workshop_app/css/base.css' %}" type="text/css"/>
     <link rel="stylesheet" href="{% static 'workshop_app/css/font-awesome.css' %}" type="text/css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
 
     {% block extra-custom-scripts %}
     {% endblock %}
